@@ -1,7 +1,7 @@
 project "ImGuizmo"
 	kind "StaticLib"
 	language "C++"
-    staticruntime "off"
+    staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -34,14 +34,18 @@ project "ImGuizmo"
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
-        buildoptions "/MTd"
 
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
-		buildoptions "/MT"
 
     filter "configurations:Dist"
 		runtime "Release"
 		optimize "on"
         symbols "off"
+		
+	filter { "system:windows", "configurations:Debug" }
+        buildoptions "/MTd"
+	
+    filter { "system:windows", "configurations:Release" }
+        buildoptions "/MT"
